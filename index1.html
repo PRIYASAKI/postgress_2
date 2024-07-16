@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Submission</title>
+</head>
+<body>
+    <h1>Submit Your Information</h1>
+    <form action="/submit" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        <input type="submit" value="Submit">
+    </form>
+
+    <h2>Update Information</h2>
+    <form action="/update" method="post">
+        <label for="id">ID:</label>
+        <input type="text" id="id" name="id" required><br><br>
+        <label for="name">New Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+        <label for="email">New Email:</label>
+        <input type="email" id="email" name="email"><br><br>
+        <input type="submit" value="Update">
+    </form>
+
+    <h2>Delete Information</h2>
+    <form action="/delete" method="post">
+        <label for="id">ID:</label>
+        <input type="text" id="id" name="id" required><br><br>
+        <input type="submit" value="Delete">
+    </form>
+
+    <h2>View Data</h2>
+    <button id="view-data">View Data</button>
+    <div id="data"></div>
+
+    <script>
+        document.getElementById('view-data').addEventListener('click', function() {
+            fetch('/data')
+                .then(response => response.json())
+                .then(data => {
+                    const dataDiv = document.getElementById('data');
+                    dataDiv.innerHTML = '';
+                    data.forEach(row => {
+                        dataDiv.innerHTML += `<p>ID: ${row.id}, Name: ${row.name}, Email: ${row.email}</p>`;
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+    </script>
+</body>
+</html>
+
